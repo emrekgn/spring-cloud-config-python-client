@@ -1,4 +1,4 @@
-__all__ = ['ConfigError', 'ConfigValueError', 'ConfigPlaceholderError']
+__all__ = ["ConfigError", "ConfigValueError", "ConfigPlaceholderError"]
 
 
 class ConfigError(Exception):
