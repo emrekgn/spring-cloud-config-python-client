@@ -22,17 +22,34 @@ make release AUTH_TOKEN=<GITLAB_AUTH_TOKEN> VERSION=<NEW_VERSION>
 
 ## How to Use
 
-A basic example:
+Fetch configuration the same way you would in a Spring Boot application. Below is a realistic client that pulls database, Kafka, and actuator settings exposed by a Spring Cloud Config Server:
 
-```
+```python
 from spring_cloud_config_client import props
-props.init("patient-service", ["be", "kafka"]) # Init by service_name and profiles
 
-t1 = get("kafka.bootstrap-servers", default_value="http://localhost:9092") # You can optionally provide a default value if the prop is not found
-t2 = get("kafka.topic.person-status")
-t3 = get("spring.datasource.hikari.connection-timeout")
-t4 = get("room-metadata.default-door-coordinates") # It also supports multi-dimensional array types
-t5 = get("kafka.topic") # It can also return dict types if you want to fetch a sub-group of properties
+# Initialize with your Spring application name and active profiles
+props.init("inventory-service", ["prod", "us-east-1"])
+
+# Common Spring properties
+db_url = props.get("spring.datasource.url")
+db_user = props.get("spring.datasource.username")
+db_password = props.get("spring.datasource.password")
+connection_timeout = props.get(
+    "spring.datasource.hikari.connection-timeout",
+    default_value=30_000,
+)
+
+# Messaging and observability
+kafka_servers = props.get("spring.kafka.bootstrap-servers")
+order_topic = props.get("spring.kafka.topic.orders")
+actuator_exposed = props.get(
+    "management.endpoints.web.exposure.include",
+    default_value="health,info,prometheus",
+)
+
+# You can also fetch structured sections
+logging_levels = props.get("logging.level")
+# {'root': 'INFO', 'com.example.inventory': 'DEBUG'}
 ```
 
 The library can also make use of *environment variables*. So if your configuration property contains a placeholder (e.g. `${REDIS_HOST}` or `${KAFKA_HOST:localhost}` etc.) it will be replaced by its matching environment variable (`REDIS_HOST`, `KAFKA_HOST` etc.) if exists.\
@@ -54,7 +71,7 @@ The library can be configured via these environment variables:
 
 We use semantic versioning. You can check [here](https://semver.org/) when and how to bump up the version.
 
-1. In order to bump up, just run `make set-version VERSION=<NEW_VERSION>`. This will 
+1. In order to bump up, just run `make set-version VERSION=<NEW_VERSION>`. This will
    1. Update the version string in [VERSION](VERSION) file,
    2. Set package version located in `pyproject.toml`.
 
