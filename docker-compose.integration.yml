@@ -1,0 +1,19 @@
+name: spring-cloud-config-client-tests
+services:
+  config-server:
+    image: hyness/spring-cloud-config-server:4.3
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+      SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: file:/config-repo
+      SPRING_SECURITY_USER_NAME: config
+      SPRING_SECURITY_USER_PASSWORD: config
+      SERVER_PORT: 8888
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./tests/integration/config-repo:/config-repo:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 12

@@ -1,4 +1,5 @@
 .PHONY: help install install-dev clean lint test get-version set-version build publish
+MAKE_INTEGRATION := scripts/run_integration_tests.sh
 
 help:  ## Show this help message
 	@echo "Available commands:"
@@ -30,6 +31,9 @@ lint:  ## Run linting checks
 
 test:  ## Run unit tests
 	uv run pytest
+
+test-integration:  ## Run integration tests against a real Spring Cloud Config Server
+	$(MAKE_INTEGRATION)
 
 get-version: ## Get version
 	@python3 -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])"

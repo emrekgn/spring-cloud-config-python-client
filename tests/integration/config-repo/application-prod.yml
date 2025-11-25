@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://inventory-db:5432/inventory
+    username: inventory_app
+    password: s3cr3t
+    hikari:
+      connection-timeout: 30000
+  kafka:
+    bootstrap-servers: broker1:9092,broker2:9092
+    topic:
+      orders: inventory.orders
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+logging:
+  level:
+    root: INFO
+    com.example.inventory: DEBUG

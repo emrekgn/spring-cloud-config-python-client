@@ -67,6 +67,16 @@ The library can be configured via these environment variables:
 * **CONFIG_SERVICE_RETRY_MAX_ATTEMPTS** default value: 5
 * **CONFIG_SERVICE_RETRY_MULTIPLIER** default value: 1.1
 
+## Integration Tests
+
+If you have Docker available, you can run a live integration test suite against an actual Spring Cloud Config Server:
+
+```shell
+make test-integration
+```
+
+The target spins up the server defined in `docker-compose.integration.yml`, serves the fixtures from `tests/integration/config-repo`, runs the tests in `tests/integration`, and tears everything down when finished.
+
 ## Versioning
 
 We use semantic versioning. You can check [here](https://semver.org/) when and how to bump up the version.
