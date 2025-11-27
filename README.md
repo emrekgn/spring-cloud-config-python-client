@@ -1,23 +1,22 @@
 # spring-cloud-config-client
 
 A helper library written in Python to fetch configuration properties from [the Spring Cloud Config server](https://docs.spring.io/spring-cloud-config/reference/server.html).
-There is still much to do, this lib is used only to abstract away some config-service related details from the Python services.
 
-## How to Initialize
-This project uses [uv](https://docs.astral.sh/uv/) for dependency management. After installing `uv`, run the sync command to create a local virtualenv with the locked dependencies.
 
-```shell
-uv sync
-```
+## Development Setup
 
-Use `uv run <command>` to execute scripts inside that environment.
+To contribute to this project, you’ll need to install some common prerequisites first, and then follow setup instructions.
 
-## How to Release
+### Prerequisites
 
-Release process means the library passed all its tests & ready to be deployed on both PyPi and Maven registries. We use [semantic versioning](https://semver.org/) for each release so keep that in mind while setting a new version.
+* [uv](https://docs.astral.sh/uv/)
+* make [for win](https://stackoverflow.com/a/32127632) (required on Windows, usually preinstalled on Linux/macOS)
+
+### Setup
 
 ```shell
-make release AUTH_TOKEN=<GITLAB_AUTH_TOKEN> VERSION=<NEW_VERSION>
+# Install Python 3.12 and all dependencies under ./venv locally
+make install-dev
 ```
 
 ## How to Use
@@ -57,15 +56,24 @@ If the environment variable cannot be found, it searches for an optional default
 
 ## Environment Variables
 
-The library can be configured via these environment variables:
+Configure the client with these environment variables:
 
-* **CONFIG_SERVICE_HOST** default value: localhost
-* **CONFIG_SERVICE_PORT** default value: 20000
-* **CONFIG_SERVICE_FAIL_FAST** default value: False. If set to True, the library will sys.exits if it cannot connect to the config-service on startup or if it cannot connect to it during runtime after a max retry attempts.
-* **CONFIG_SERVICE_RETRY_INITIAL_INTERVAL** default value: 1 (in seconds)
-* **CONFIG_SERVICE_RETRY_MAX_INTERVAL** default value: 20 (in seconds)
-* **CONFIG_SERVICE_RETRY_MAX_ATTEMPTS** default value: 5
-* **CONFIG_SERVICE_RETRY_MULTIPLIER** default value: 1.1
+* **CONFIG_SERVER_FQDN** overrides host and port with a full URL (default `http://localhost:8080/`)
+* **CONFIG_SERVER_HOST** host used when `CONFIG_SERVER_FQDN` is unset (default `localhost`)
+* **CONFIG_SERVER_PORT** port paired with `CONFIG_SERVER_HOST` (default `8080`)
+* **CONFIG_SERVER_FAIL_FAST** exits when unable to reach the config server if set to `True` (default `False`)
+* **CONFIG_SERVER_RETRY_INITIAL_INTERVAL** wait (seconds) before the first retry (default `1`)
+* **CONFIG_SERVER_RETRY_MAX_INTERVAL** maximum wait (seconds) between retries (default `10`)
+* **CONFIG_SERVER_RETRY_MAX_ATTEMPTS** total attempts before giving up (default `5`)
+* **CONFIG_SERVER_RETRY_MULTIPLIER** exponential backoff multiplier applied between retries (default `1.1`)
+* **CONFIG_USERNAME** HTTP basic auth username (default `user`)
+* **CONFIG_PASSWORD** HTTP basic auth password (default empty)
+
+## Unit Tests
+
+```shell
+make test
+```
 
 ## Integration Tests
 
@@ -81,8 +89,6 @@ The target spins up the server defined in `docker-compose.integration.yml`, serv
 
 We use semantic versioning. You can check [here](https://semver.org/) when and how to bump up the version.
 
-1. In order to bump up, just run `make set-version VERSION=<NEW_VERSION>`. This will
-   1. Update the version string in [VERSION](VERSION) file,
-   2. Set package version located in `pyproject.toml`.
-
-Please don't manually modify pyproject.toml.
+```shell
+make set-version VERSION=<NEW_VERSION>`
+```
