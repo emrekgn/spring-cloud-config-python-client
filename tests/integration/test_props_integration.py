@@ -5,12 +5,12 @@ import pytest
 
 @pytest.fixture
 def configured_props(monkeypatch):
-    monkeypatch.delenv("CONFIG_SERVICE_FQDN", raising=False)
-    monkeypatch.setenv("CONFIG_SERVICE_HOST", "localhost")
-    monkeypatch.setenv("CONFIG_SERVICE_PORT", "8888")
-    monkeypatch.setenv("CONFIG_USERNAME", "config")
-    monkeypatch.setenv("CONFIG_PASSWORD", "config")
-    monkeypatch.setenv("CONFIG_SERVICE_FAIL_FAST", "False")
+    monkeypatch.delenv("CONFIG_SERVER_FQDN", raising=False)
+    monkeypatch.setenv("CONFIG_SERVER_HOST", "localhost")
+    monkeypatch.setenv("CONFIG_SERVER_PORT", "8888")
+    monkeypatch.setenv("CONFIG_SERVER_USERNAME", "config")
+    monkeypatch.setenv("CONFIG_SERVER_PASSWORD", "config")
+    monkeypatch.setenv("CONFIG_CLIENT_FAIL_FAST", "False")
 
     import spring_cloud_config_client # noqa: PLC0415
     from spring_cloud_config_client import props # noqa: PLC0415

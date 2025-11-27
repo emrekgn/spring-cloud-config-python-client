@@ -61,13 +61,13 @@ Configure the client with these environment variables:
 * **CONFIG_SERVER_FQDN** overrides host and port with a full URL (default `http://localhost:8080/`)
 * **CONFIG_SERVER_HOST** host used when `CONFIG_SERVER_FQDN` is unset (default `localhost`)
 * **CONFIG_SERVER_PORT** port paired with `CONFIG_SERVER_HOST` (default `8080`)
-* **CONFIG_SERVER_FAIL_FAST** exits when unable to reach the config server if set to `True` (default `False`)
-* **CONFIG_SERVER_RETRY_INITIAL_INTERVAL** wait (seconds) before the first retry (default `1`)
-* **CONFIG_SERVER_RETRY_MAX_INTERVAL** maximum wait (seconds) between retries (default `10`)
-* **CONFIG_SERVER_RETRY_MAX_ATTEMPTS** total attempts before giving up (default `5`)
-* **CONFIG_SERVER_RETRY_MULTIPLIER** exponential backoff multiplier applied between retries (default `1.1`)
-* **CONFIG_USERNAME** HTTP basic auth username (default `user`)
-* **CONFIG_PASSWORD** HTTP basic auth password (default empty)
+* **CONFIG_SERVER_USERNAME** HTTP basic auth username (default `user`)
+* **CONFIG_SERVER_PASSWORD** HTTP basic auth password (default empty)
+* **CONFIG_CLIENT_FAIL_FAST** exits when unable to reach the config server if set to `True` (default `False`)
+* **CONFIG_CLIENT_RETRY_INITIAL_INTERVAL** wait (seconds) before the first retry (default `1`)
+* **CONFIG_CLIENT_RETRY_MAX_INTERVAL** maximum wait (seconds) between retries (default `10`)
+* **CONFIG_CLIENT_RETRY_MAX_ATTEMPTS** total attempts before giving up (default `5`)
+* **CONFIG_CLIENT_RETRY_MULTIPLIER** exponential backoff multiplier applied between retries (default `1.1`)
 
 ## Unit Tests
 

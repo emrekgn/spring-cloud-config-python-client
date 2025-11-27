@@ -15,11 +15,13 @@ def reload_props(monkeypatch):
     defaults = {
         "CONFIG_SERVER_HOST": "config-service",
         "CONFIG_SERVER_PORT": "8012",
-        "CONFIG_SERVER_FAIL_FAST": "False",
-        "CONFIG_SERVER_RETRY_INITIAL_INTERVAL": "1",
-        "CONFIG_SERVER_RETRY_MAX_INTERVAL": "15",
-        "CONFIG_SERVER_RETRY_MAX_ATTEMPTS": "3",
-        "CONFIG_SERVER_RETRY_MULTIPLIER": "2",
+        "CONFIG_CLIENT_FAIL_FAST": "False",
+        "CONFIG_CLIENT_RETRY_INITIAL_INTERVAL": "1",
+        "CONFIG_CLIENT_RETRY_MAX_INTERVAL": "15",
+        "CONFIG_CLIENT_RETRY_MAX_ATTEMPTS": "3",
+        "CONFIG_CLIENT_RETRY_MULTIPLIER": "2",
+        "CONFIG_SERVER_USERNAME": "svc-user",
+        "CONFIG_SERVER_PASSWORD": "s3cret",
         "CONFIG_USERNAME": "svc-user",
         "CONFIG_PASSWORD": "s3cret",
     }
@@ -54,7 +56,7 @@ def test_init_requires_application_or_profiles(reload_props):
 
 
 def test_init_fetches_and_parses_remote_yaml(reload_props, monkeypatch):
-    props = reload_props(CONFIG_SERVER_RETRY_MAX_INTERVAL="25")
+    props = reload_props(CONFIG_CLIENT_RETRY_MAX_INTERVAL="25")
     captured = {}
 
     def fake_get(url, auth=None, timeout=None):
@@ -86,9 +88,9 @@ def test_init_fetches_and_parses_remote_yaml(reload_props, monkeypatch):
 
 def test_init_retries_until_success_without_fail_fast(reload_props, monkeypatch):
     props = reload_props(
-        CONFIG_SERVER_RETRY_MAX_ATTEMPTS="3",
-        CONFIG_SERVER_RETRY_INITIAL_INTERVAL="1",
-        CONFIG_SERVER_RETRY_MULTIPLIER="2",
+        CONFIG_CLIENT_RETRY_MAX_ATTEMPTS="3",
+        CONFIG_CLIENT_RETRY_INITIAL_INTERVAL="1",
+        CONFIG_CLIENT_RETRY_MULTIPLIER="2",
     )
     attempts = {"count": 0}
 
@@ -110,7 +112,7 @@ def test_init_retries_until_success_without_fail_fast(reload_props, monkeypatch)
 
 
 def test_init_exits_immediately_when_fail_fast_is_enabled(reload_props, monkeypatch):
-    props = reload_props(CONFIG_SERVER_FAIL_FAST="True")
+    props = reload_props(CONFIG_CLIENT_FAIL_FAST="True")
 
     def failing_get(*_, **__):
         return SimpleNamespace(status_code=503, text="", reason="Service Unavailable")
