@@ -32,6 +32,11 @@ dev = [
 Homepage = "https://github.com:emrekgn/spring-cloud-config-python-client"
 Repository = "https://github.com:emrekgn/spring-cloud-config-python-client"
 
+[tool.pytest.ini_options]
+testpaths = [
+    "tests/unit",
+]
+
 # Ruff configuration
 [tool.ruff]
 target-version = "py312"
