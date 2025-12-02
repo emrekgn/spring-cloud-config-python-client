@@ -1,5 +1,9 @@
 # spring-cloud-config-client
 
+[![PyPI version](https://img.shields.io/pypi/v/spring-cloud-config-client.svg)](https://pypi.org/project/spring-cloud-config-client/)
+![License](https://img.shields.io/github/license/emrekgn/spring-cloud-config-python-client)
+![Build Status](https://github.com/emrekgn/spring-cloud-config-python-client/actions/workflows/python-package.yml/badge.svg)
+
 A helper library written in Python to fetch configuration properties from [the Spring Cloud Config server](https://docs.spring.io/spring-cloud-config/reference/server.html).
 
 
