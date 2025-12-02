@@ -17,12 +17,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.12"
+          # Install a specific version of uv.
+          version: "0.9.14"
 
       - name: Install dependencies
         run: |
